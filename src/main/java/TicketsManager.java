@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class TicketsManager {
     private TicketsRepository repo;
@@ -11,7 +12,7 @@ public class TicketsManager {
         repo.add(newTicket);
     }
 
-    public Ticket[] findAll(String from, String to) {
+    public Ticket[] findAll(String from, String to, Comparator<Ticket> comparator) {
         Ticket[] result = new Ticket[0];
         for (Ticket ticket : repo.findAll()) {
             if (ticket.matches(from, to)) {
@@ -26,7 +27,7 @@ public class TicketsManager {
         if (result.length == 0) {
             throw new TicketNotFoundException("По направлению из " + from + " в " + to + " билетов не найдено");
         } else {
-            Arrays.sort(result);
+            Arrays.sort(result, comparator);
             return result;
         }
     }
